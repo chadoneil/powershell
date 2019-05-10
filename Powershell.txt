@@ -1,0 +1,8 @@
+Check member count of group
+$users = Get-ADGroupMember -Identity 'Azure-MFA-Users' -Recursive ; $users.count
+Check for created users last 2 days
+Get-ADUser -Filter * -Properties whenCreated | Where-Object {$_.whenCreated -ge ((Get-Date).AddDays(-2)).Date} 
+Get groups and export to csv
+Get-ADPrincipalGroupMembership FMID | Export-Csv C:\Users\oneilc25\Downloads\FMID.csv
+Change field from csv
+Import-Csv -Path .\UserPagers.csv | ForEach {Set-ADUser $_.sAMAccountName -Replace @{pager=$_.pager}}
